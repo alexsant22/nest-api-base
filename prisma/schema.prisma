@@ -7,9 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Definindo o modelo User - tabela de usuários
 model User {
   id Int @id @default(autoincrement())
   name String
   idade Int
   email String @unique
+
+  // Relacionamento com Project (um para muitos)
+  projects Project[]
+}
+
+// Definindo o modelo Project - tabela de projetos
+model Project {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  createdAt DateTime @default(now())
+
+  // Relacionamento com User (muitos para um)
+  user User @relation(fields: [userId], references: [id])
+  userId Int
 }
